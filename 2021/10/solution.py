@@ -15,5 +15,5 @@ for i in s:
             n = n * 5 + ['(', '[', '{', '<'].index(k) + 1
         part_2.append(n)
 print("Part 1:", part_1)
-print("Part 2:", sorted(part_2)[(len(part_2) - 1) // 2])
+print("Part 2:", sorted(part_2)[len(part_2) // 2])
 
