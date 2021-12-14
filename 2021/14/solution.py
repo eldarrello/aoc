@@ -1,6 +1,6 @@
 from collections import defaultdict
 f, s = open('input.txt').read().split('\n\n')
-m = {i.split(' -> ')[0] :i.split(' -> ')[1] for i in s.splitlines()}
+m = {i.split(' -> ')[0]: i.split(' -> ')[1] for i in s.splitlines()}
 def eval(n):
     pairs = defaultdict(lambda: 0)
     for i in range(len(f) - 1):
