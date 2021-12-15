@@ -1,8 +1,7 @@
 def eval(n):
-    i = open('input.txt').read().splitlines()
-    map = {(y, x): (int(i[y % 100][x % 100]) + y // 100 + x // 100 - 1) % 9 + 1 for y in range(n) for x in range(n)}
+    map = {(y, x): (int(open('input.txt').read().splitlines()[y % 100][x % 100]) + y // 100 + x // 100 - 1) % 9 + 1 for y in range(n) for x in range(n)}
     s = {yx: (yx[0] + yx[1]) * 9 for yx in map.keys()}
-    for _ in range(10):     #10 - alternative is to break out of loop if no changes
+    for _ in range(10):     #10 - alternative is to break out of the loop if no changes
         for yx in list(map.keys()):
             t = [s[move] + map[yx] for move in [(yx[0] + m[0], yx[1] + m[1]) for m in [(0, 1), (1, 0), (-1, 0), (0, -1)]] if move in map and s[move] + map[yx] < s[yx]]
             if t:
