@@ -20,9 +20,9 @@ def read_packet():
     else:
         if read(1) == '0':
             bits_in_sub = int(read(15), 2)
-            values = [read_packet() for i in range(p, p + bits_in_sub) if p < i]
+            vs = [read_packet() for i in range(p, p + bits_in_sub) if p < i]
         else:
-            values = [read_packet() for _ in range(int(read(11), 2))]
-        return [sum(values), math.prod(values), min(values), max(values), 0, 1 if values[0] > values[-1] else 0, 1 if values[0] < values[-1] else 0, 1 if values[0] == values[-1] else 0][type]
+            vs = [read_packet() for _ in range(int(read(11), 2))]
+        return [sum(vs), math.prod(vs), min(vs), max(vs), 0, vs[0] > vs[-1], vs[0] < vs[-1], vs[0] == vs[-1]][type]
 print("Part 2:", read_packet())
 print("Part 1:", total)
