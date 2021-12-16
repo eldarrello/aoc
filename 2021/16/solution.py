@@ -14,7 +14,7 @@ def read_packet():
     type = read(3)
     if type == 4:
         v = 0
-        while read(1) == 1:
+        while read(1):
             v = v * 16 + read(4)
         return v * 16 + read(4)
     else:
