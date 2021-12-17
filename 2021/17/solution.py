@@ -1,25 +1,10 @@
-tx, ty = map(lambda i: range(i[0], i[1] + 1), map(lambda i: list(map(int, i.split('..'))), map(lambda i: i.split('=')[1], open('input.txt').read().split(', '))))
-tmax_y = 0
-part_2 = 0
-for svx in range(0, max(tx) + 1):
-    for svy in range(min(ty), max(tx)):
-        x = 0
-        y = 0
-        vx = svx
-        vy = svy
-        max_y = 0
-        for step in range(1000):
-            if vx != 0:
-                x += vx
-                vx += 1 if vx < 0 else -1
-            elif x not in tx:
-                break
-            y += vy
-            max_y = max(max_y, y)
-            vy -= 1
-            if x in tx and y in ty:
-                part_2 += 1
-                tmax_y = max(tmax_y, max_y)
-                break
-print("Part 1:", tmax_y)
-print("Part 2:", part_2)
+min_x, max_x, min_y, max_y = map(int, open('input.txt').read()[15:].replace('..', ',').replace(' y=', '').split(','))
+print("Part 1:", min_y * (min_y + 1) // 2)
+def eval(dx, dy):
+    x, y = 0, 0
+    while x <= max_x and y >= min_y:
+        x, y = x + dx, y + dy
+        dx, dy = dx - (dx > 0), dy - 1
+        if min_x <= x <= max_x and min_y <= y <= max_y:
+            return 1
+print("Part 2:", sum([eval(dx, dy) != None for dx in range(0, max_x + 1) for dy in range(min_y, abs(min_y))]))
