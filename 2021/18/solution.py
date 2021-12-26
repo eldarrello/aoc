@@ -1,7 +1,3 @@
-import re, itertools
-s = open('input.txt').read().splitlines()
-p = re.compile("\[\d+,\d+\]")
-
 def add(a, b):
     s = '[' + a + ',' + b + ']'
     while True:
@@ -28,15 +24,14 @@ def add(a, b):
             v = s[m.start():m.end()]
             vi = int(v)
             s = s.replace(v, '[{},{}]'.format(vi // 2, (vi + 1) // 2), 1)
-
 def mag(s):
     while m := p.search(s):
         a, b = map(int, re.findall("(\d+)", s[m.start():m.end()]))
         s = s[:m.start()] + str(3 * a + 2 * b) + s[m.end():]
     return int(s)
-
+import re, itertools
+s = open('input.txt').read().splitlines()
+p = re.compile("\[\d+,\d+\]")
 t = s[0]
-for i in range(1, len(s)):
-    t = add(t, s[i])
-print("Part 1:", mag(t))
+print("Part 1:", mag([t := add(t, s[i]) for i in range(1, len(s))][-1]))
 print("Part 2:", max([mag(add(i[0], i[1])) for i in list(itertools.permutations(s, 2))]))
