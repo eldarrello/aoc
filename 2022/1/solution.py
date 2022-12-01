@@ -1,10 +1,3 @@
-s = open('input.txt').read().splitlines()
-acc = [0]
-for line in s:
-    if line == '':
-        acc.append(0)
-    else:
-        acc[-1] += int(line)
-acc.sort()
+acc = sorted([sum([int(i) for i in x]) for x in [x.split('\n') for x in open('input.txt').read().split('\n\n')]])
 print("Part 1:", acc[-1])
 print("Part 2:", sum(acc[-3:]))
