@@ -5,9 +5,8 @@ for i in s:
     ii = i.split()
     if len(ii) == 3:
         if ii[2] == '..':
-            sizes.append(path[-1])
             path[-2] += path[-1]
-            path.pop()
+            sizes.append(path.pop())
         else:
             path.append(0)
     elif ii[0].isnumeric():
