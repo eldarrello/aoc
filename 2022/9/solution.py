@@ -1,8 +1,7 @@
 def eval(k):
-    s = open('input.txt').read().splitlines()
     p = [(0, 0) for i in range(k)]
     m = set()
-    for i in s:
+    for i in open('input.txt').read().splitlines():
         s, n = i.split()
         for k in range(int(n)):
             p[0] = tuple(map(sum, zip(p[0], {'U':(-1, 0), 'D':(1, 0), 'L':(0, -1), 'R':(0, 1)}[s])))
