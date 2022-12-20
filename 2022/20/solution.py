@@ -4,11 +4,7 @@ def eval(n, key):
     for j in range(n):
         for i in range(len(v)):
             si = k.index(i)
-            q = k.pop(si)
-            di = (si + v[i]) % len(k)
-            if di < 0:
-                di -= 1
-            k.insert(di, q)
+            k.insert((si + v[i]) % (len(k) - 1), k.pop(si))
     vv = [v[i] for i in k]
     return sum([vv[(vv.index(0) + i) % len(v)] for i in [1000, 2000, 3000]])
 print("Part 1:", eval(1, 1))
