@@ -1,40 +1,23 @@
+def calc(node):
+    return eval("calc('{}') {} calc('{}')".format(*q[node])) if type(q[node]) is tuple else q[node]
+q = {k: tuple(v.split()) if ' ' in v else int(v) for k, v in [i.split(': ') for i in open('input.txt').read().splitlines()]}
+print("Part 1:", int(calc('root')))
 def calc2(node, e):
     if node == 'humn':
         return int(e)
     a, op, b = q[node]
+    has_a = type(q[b]) is tuple
     if op == '+':
-        c = e - v[a if a in v else b]
+        c = e - q[a if has_a else b]
     elif op == '-':
-        c = v[a] - e if a in v else e + v[b]
+        c = q[a] - e if has_a else e + q[b]
     elif op == '*':
-        c = e / v[a if a in v else b]
+        c = e / q[a if has_a else b]
     elif op == '/':
-        c = v[a] / e if a in v else e * v[b]
-    return calc2(b if a in v else a, c)
-
-def calc(node):
-    global depends
-    if node in v:
-        if node == 'humn':
-            depends += 1
-        return v[node]
-    return eval("calc('{}') {} calc('{}')".format(*q[node]))
-q = {}
-v = {}
-for i in open('input.txt').read().splitlines():
-    d, s = i.split(': ')
-    ss = s.split()
-    if len(ss) == 1:
-        v[d] = int(ss[0])
-    else:
-        q[d] = tuple(ss)
-depends = 0
-print("Part 1:", int(calc('root')))
-
-for k, _ in q.items():
-    depends = 0
-    value = calc(k)
-    if depends == 0:
-        v[k] = value
-del v['humn']
-print("Part 2:", calc2('pqpw', calc('vqmv')))
+        c = q[a] / e if has_a else e * q[b]
+    return calc2(b if has_a else a, c)
+q['humn'] = float('nan')
+q.update({i: v for i, v in {k: calc(k) for k in q.keys()}.items() if v == v})
+del q['humn']
+a, _, b = q['root']
+print("Part 2:", calc2(b, q[a]) if type(q[b]) is tuple else calc2(a, q[b]))
