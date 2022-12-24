@@ -63,11 +63,11 @@ def eval(n):
                     path.append(opened.pop(0))
             if score > best_score:
                 best_score = score
-                best_path = path
-    return best_score, best_path
+                #best_path = path
+    return best_score
 
 def get_next_nodes(node, opened, time, n):
-    nodes = [(next_node, time + dt) for next_node, dt in paths[node] if next_node not in opened and time + dt <= n]
+    nodes = [(next_node, time + dt) for next_node, dt in paths[node] if next_node not in opened and time + dt <= n - 3]
     if not nodes:
        return [(node, time)], False
     return nodes, True
@@ -86,6 +86,8 @@ def eval2(n):
             next_nodeAs = []
         for next_nodeA, next_timeA in next_nodeAs:
             for next_nodeB, next_timeB in next_nodeBs:
+                if next_nodeA == next_nodeB:
+                    continue
                 new_opened = []
                 new_times = []
                 if next_nodeA not in opened:
@@ -97,7 +99,9 @@ def eval2(n):
                 if len(new_times) == 2 and new_times[1] < new_times[0]:
                     new_times.append(new_times.pop(0))
                     new_opened.append(new_opened.pop(0))
-                new_nodes.append((next_nodeA, next_nodeB, opened + new_opened, times + new_times, next_timeA, next_timeB))
+                new_node = (next_nodeA, next_nodeB, opened + new_opened, times + new_times, next_timeA, next_timeB)
+                if new_node not in new_nodes:
+                    new_nodes.append(new_node)
         if new_nodes:
             nodes += new_nodes
         else:
@@ -113,12 +117,10 @@ def eval2(n):
                     path.append(opened.pop(0))
             if score > best_score:
                 best_score = score
-                best_path = path
-                print(score, best_path)
-    return best_score, best_path
-best_score, best_path = eval(30)
-print("Part 1:", best_score, best_path)
-best_score2, best_path2 = eval2(26)
-#todo::current brute force is too slow. 30-60 minitues gave correct answer but no clue how many combinations still remained until completion.
-print("Part 2:", best_score2, best_path2)
+                #best_path = path
+                #print(score, best_path)
+    return best_score
+print("Part 1:", eval(30))
+#todo::brute force is too slow (~5 min).
+print("Part 2:", eval2(26))
 
