@@ -4,30 +4,25 @@ h = len(s) - 2
 w = len(s[0]) - 2
 def eval(start, end, minute):
     nodes = [start]
-    while nodes:
+    for minute in range(minute, minute + 1000):
         next_nodes = set()
-        while nodes:
-            x, y = nodes.pop(0)
-            for dx, dy in [(1, 0), (0, 1), (-1, 0), (0, -1), (0, 0)]:
-                nx, ny = x + dx, y + dy
-                p = (nx, ny)
-                if p in m:
+        for x, y in nodes:
+            for nx, ny in [(x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1), (x, y)]:
+                if (nx, ny) == end:
+                    return minute
+                if (nx, ny) in m:
                     vx = (nx - minute) % w
                     if vx < 0:
                         vx += w
                     vy = (ny - minute) % h
                     if vy < 0:
                         vy += h
-                    if (((nx + minute) % w, ny) in m and m[((nx + minute) % w, ny)] == '<')\
-                            or ((vx, ny) in m and m[(vx, ny)] == '>')\
-                            or ((nx, (ny + minute) % h) in m and m[(nx, (ny + minute) % h)] == '^')\
-                            or ((nx, vy) in m and m[(nx, vy)] == 'v'):
-                        continue
-                    next_nodes.add(p)
+                    if (((nx + minute) % w, ny) not in m or m[((nx + minute) % w, ny)] != '<')\
+                            and ((vx, ny) not in m or m[(vx, ny)] != '>')\
+                            and ((nx, (ny + minute) % h) not in m or m[(nx, (ny + minute) % h)] != '^')\
+                            and ((nx, vy) not in m or m[(nx, vy)] != 'v'):
+                        next_nodes.add((nx, ny))
         nodes = list(next_nodes)
-        if end in nodes:
-            return minute
-        minute += 1
 start = (0, -1)
 end = (99, 35)
 minute = eval(start, end, 1)
