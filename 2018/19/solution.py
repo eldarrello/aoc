@@ -3,8 +3,8 @@ ip_reg = int(s[0].split('#ip ')[1])
 def calc(op, a, b, c, r):
     r[c] = {'addr': r[a] + r[b], 'addi': r[a] + b, 'mulr': r[a] * r[b], 'muli': r[a] * b,
             'setr': r[a], 'seti': a,
-    'gtir': 1 if a > r[b] else 0, 'gtri': 1 if r[a] > b else 0, 'gtrr': 1 if r[a] > r[b] else 0,
-    'eqir': 1 if a == r[b] else 0, 'eqri': 1 if r[a] == b else 0, 'eqrr': 1 if r[a] == r[b] else 0}[op]
+            'gtir': 1 if a > r[b] else 0, 'gtri': 1 if r[a] > b else 0, 'gtrr': 1 if r[a] > r[b] else 0,
+            'eqir': 1 if a == r[b] else 0, 'eqri': 1 if r[a] == b else 0, 'eqrr': 1 if r[a] == r[b] else 0}[op]
 m = []
 for i in s[1:]:
     op, a, b, c = i.split()
@@ -15,7 +15,6 @@ while True:
     if ip >= len(m):
         break
     op, a, b, c = m[ip]
-    pre = str(r[:6]) + str(m[ip])
     calc(op, a, b, c, r)
     r[ip_reg] += 1
 print("Part 1:", r[0])
