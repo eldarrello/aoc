@@ -13,23 +13,14 @@ def eval(a, p, l, b, visited):
             break
     return c
 
-def expand(a, b, n):
-    aa = [*a]
-    bb = [*b]
-    for i in range(1, n):
-        aa.append('?')
-        aa += a
-        bb += b
-    return aa + ['.'], bb
-
-def run(n):
+def run(expand):
     acc = 0
     for k, l in enumerate(s):
         a, b = l.split()
-        a, b = expand(a, list(map(int, b.split(','))), n)
-        acc += eval(''.join(a), 0, b[0], b[1:], {})
+        a, b = expand(a, list(map(int, b.split(','))))
+        acc += eval(a, 0, b[0], b[1:], {})
     return acc
 
 s = open('input.txt').read().splitlines()
-print("Part 1:", run(1))
-print("Part 2:", run(5))
+print("Part 1:", run(lambda a, b: (a + '.', b)))
+print("Part 2:", run(lambda a, b: (a + '?' + a + '?' + a + '?' + a + '?' + a + '.', b + b + b + b + b)))
