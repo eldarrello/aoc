@@ -1,3 +1,4 @@
+import math
 m = {}
 for i in open('input.txt').read().splitlines():
     k, ds = i.split(' -> ')
@@ -6,8 +7,10 @@ ss = {key: {k: 0 for k, v in m.items() if key in v[1]} for key, d in m.items() i
 ff = {key: 0 for key, d in m.items() if d[0] == '%'}
 low = 0
 high = 0
-def run():
-    global high, low
+w = {}
+x = set()
+q = set()
+for i in range(1, 5000):
     inputs = [('roadcaster', '', 0)]
     low += 1
     while inputs:
@@ -22,17 +25,10 @@ def run():
             pulse = 0 if sum(list(ss[k].values())) == len(ss[k]) else 1
         else:
             pulse = 0
-        if k in m:
-            for d in m[k][1]:
-                inputs.append((d, k, pulse))
-                high += pulse
-                low += 1 - pulse
-import math
-w = {}
-x = set()
-q = set()
-for i in range(1, 5000):
-    run()
+        for d in m[k][1] if k in m else []:
+            inputs.append((d, k, pulse))
+            high += pulse
+            low += 1 - pulse
     if i == 1000:
         print("Part 1:", high * low)
     for k, v in ss.items():
