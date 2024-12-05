@@ -1,10 +1,5 @@
 def eval(s):
-    acc = 0
-    for i in s.split('mul('):
-        ts = i.split(')')[0].split(',')
-        if len(ts) == 2 and ts[0].isnumeric() and ts[1].isnumeric() and len(ts[0]) < 4 and len(ts[1]) < 4:
-            acc += int(ts[0]) * int(ts[1])
-    return acc
+    return sum([int(ts[0]) * int(ts[1]) for ts in [i.split(')')[0].split(',') for i in s.split('mul(')] if len(ts) == 2 and ts[0].isnumeric() and ts[1].isnumeric() and len(ts[0]) < 4 and len(ts[1]) < 4])
 s = open('input.txt').read()
 ds = s.split('don\'t()')
 print("Part 1:", eval(s))
