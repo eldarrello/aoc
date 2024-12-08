@@ -3,13 +3,11 @@ s = open('input.txt').read().splitlines()
 m = {(x, y): s[y][x] for y in range(len(s)) for x in range(len(s[0]))}
 def eval(n):
     ps = set()
-    for i in [chr(i) for i in range(ord('0'), ord('z') + 1)]:
-        l = [k for k, v in m.items() if v == i]
+    for c in [chr(i) for i in range(ord('0'), ord('z') + 1)]:
+        l = [k for k, v in m.items() if v == c]
         if len(l) > 1:
-            cs = itertools.combinations(l, 2)
-            for a, b in cs:
-                dx = a[0] - b[0]
-                dy = a[1] - b[1]
+            for a, b in itertools.combinations(l, 2):
+                dx, dy = a[0] - b[0], a[1] - b[1]
                 for i in n:
                     if (a[0] + i * dx, a[1] + i * dy) in m:
                         ps.add((a[0] + i * dx, a[1] + i * dy))
