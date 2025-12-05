@@ -4,7 +4,7 @@ acc2 = 0
 for l in open('input.txt').read().splitlines():
     val = int(l[1:])
     if l[0] == "L":
-        if val >= p and p > 0:
+        if 0 < p <= val:
             acc2 += 1
         val = -val
     acc2 += abs(p + val) // 100
