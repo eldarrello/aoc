@@ -1,8 +1,6 @@
 def cp(cache, node):
     if node not in cache:
-        if node not in m:
-            return 0
-        cache[node] = sum([cp(cache, i) for i in m[node]])
+        cache[node] = sum([cp(cache, i) for i in (m[node] if node in m else [])])
     return cache[node]
 s = open('input.txt').read().splitlines()
 m = {l.split(':')[0]: l.split(':')[1].split() for l in s}
