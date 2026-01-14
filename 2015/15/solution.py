@@ -1,44 +1,20 @@
 s = open('input.txt').read().splitlines()
-incs = []
-for i in s:
-    k = i.replace(',', '').split()
-    nums = []
-    for j in k:
-        if j.lstrip('-').isdigit():
-            nums.append(int(j))
-    incs.append(nums)
-
-def eval(mix):
-    total = 1
-    for k in range(4):
-        sub_total = 0
-        for i in range(len(incs)):
-            sub_total += mix[i] * incs[i][k]
-        if sub_total < 0:
-            return 0, 0
-        total *= sub_total
-    cal = 0
-    for i in range(len(incs)):
-        cal += mix[i] * incs[i][4]
-    return total, cal
-
-import random
-
-def get_mix():
-    mix = []
-    for i in range(3):
-        mix.append(random.randrange(0, 100 - sum(mix)))
-    mix.append(100 - sum(mix))
-    return mix
-
-best_score_1 = 0
-best_score_2 = 0
-for i in range(1000000):
-    score, cal = eval(get_mix())
-    best_score_1 = max(best_score_1, score)
-    if cal == 500:
-        best_score_2 = max(best_score_2, score)
-print('Part 1:', best_score_1)
-print('Part 2:', best_score_2)
-
-#todo::deterministic way of generating permutations?
+vs = [[int(i.split()[1]) for i in l.split(': ')[1].split(', ')] for l in s]
+c = 4 * [0]
+max_score_1 = 0
+max_score_2 = 0
+for c[0] in range(101):
+    for c[1] in range(101 - c[0]):
+        for c[2] in range(101 - c[1] - c[0]):
+            for c[3] in range(101 - c[2] - c[1] - c[0]):
+                test = 1
+                for t in range(4):
+                    acc = sum([c[i] * vs[i][t] for i in range(4)])
+                    acc = max(0, acc)
+                    test *= acc
+                max_score_1 = max(max_score_1, test)
+                if sum([c[i] * vs[i][4] for i in range(4)]) == 500:
+                    max_score_2 = max(max_score_2, test)
+print('Part 1:', max_score_1)
+print('Part 2:', max_score_2)
+# Does full search, which takes < 20 sec to run. So no real need for inventing something more complex.
